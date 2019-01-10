@@ -3,37 +3,56 @@ HOST: http://local.venuepay.com/
 
 # VenuePay CreditLine
 
-This API get the customer and order data from Magento and check whether the request could be validated against credit line.
+This API allows venue.com to process credit request from consumers via Magento.
 
-## Credit Decision [/questions]
+## Credit Decision [/credit]
 
-Credit decision description
++ `JSON Request` consist of Customer, Order and Credit Request data.
++ `JSON Response` returns `true` or `false` based on request acceptance or rejection.
 
 ### Request Credit [GET]
 
-+ Response 200 (application/json)
++ Request (application/json)
 
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
+        {
+            "customer": {
+                "name" : "Adnan Shahzad"
+            },
+            "order": {
+                "subtotal" : 27.2,
+                "tax" : 12.4,
+                "shipping_rate" : 10,
+                "grand_total" : 49.6,
+                "address" : {
+                    "shipment" : {},
+                    "billing" : {}
+                },
+                "cart" : {},
+                "shipping_method" : {}
+            },
+            "credit_request" : {
+                "amount": 1200
             }
-        ]
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /credit/121142
+
+    + Body
+
+            {
+                "error": false,
+                "token": "5qYHzcZX4ejeUE3yqtHVRDW73znegWTI",
+                "transaction_id": "121142",
+                "application_id": "FX20-119",
+                "amount_authorized": 1200,
+                "deduction" : 49.6,
+                "balance": 1150.4,
+                "message": "Your loan request is successfully approved"
+            }
 
 ### Take Credit [POST]
 
