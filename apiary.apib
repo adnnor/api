@@ -1,38 +1,153 @@
 FORMAT: 1A
-HOST: http://api.hypnosdev.com/
+HOST: http://local.venuepay.com/
 
-# VenuePay CreditLine API
+# VenuePay CreditLine
 
-Welcome to the **VenuePay CreditLine** API. This API provides get the customer and order data from Magento and check whether the request could be validated against credit line.
+This API get the customer and order data from Magento and check whether the request could be validated against credit line.
 
-# Group Credit Decision
-Credit Decision Description goes here
+## Credit Decision [/questions]
 
-## Posts [GET /credit/decision]
+Credit decision description
 
-+ Response 200 (application/json)
-
-        [
-            {
-                "id": 1,
-                "title": "foo title",
-                "body": "bar body",
-                "author": 1
-            }
-        ]
-
-# Group Credit Line
-
-Credit line management
-
-## Authors [GET /credit/line]
+### Request Credit [GET]
 
 + Response 200 (application/json)
 
         [
             {
-                "id": 1,
-                "name": "jhon",
-                "email": "jhon@mail.com"
+                "question": "Favourite programming language?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "choices": [
+                    {
+                        "choice": "Swift",
+                        "votes": 2048
+                    }, {
+                        "choice": "Python",
+                        "votes": 1024
+                    }, {
+                        "choice": "Objective-C",
+                        "votes": 512
+                    }, {
+                        "choice": "Ruby",
+                        "votes": 256
+                    }
+                ]
             }
         ]
+
+### Take Credit [POST]
+
++ Request (application/json)
+
+        {
+            "question": "Favourite programming language?",
+            "choices": [
+                "Swift",
+                "Python",
+                "Objective-C",
+                "Ruby"
+            ]
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /questions/2
+
+    + Body
+
+            {
+                "question": "Favourite programming language?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "choices": [
+                    {
+                        "choice": "Swift",
+                        "votes": 0
+                    }, {
+                        "choice": "Python",
+                        "votes": 0
+                    }, {
+                        "choice": "Objective-C",
+                        "votes": 0
+                    }, {
+                        "choice": "Ruby",
+                        "votes": 0
+                    }
+                ]
+            }
+
+
+## Credit Line [/questionss]
+
+Credit line description
+
+### Remove Credit Line [GET]
+
++ Response 200 (application/json)
+
+        [
+            {
+                "question": "Favourite programming language?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "choices": [
+                    {
+                        "choice": "Swift",
+                        "votes": 2048
+                    }, {
+                        "choice": "Python",
+                        "votes": 1024
+                    }, {
+                        "choice": "Objective-C",
+                        "votes": 512
+                    }, {
+                        "choice": "Ruby",
+                        "votes": 256
+                    }
+                ]
+            }
+        ]
+
+### Update Credit Line [POST]
+
+
+
++ Request (application/json)
+
+        {
+            "question": "Favourite programming language?",
+            "choices": [
+                "Swift",
+                "Python",
+                "Objective-C",
+                "Ruby"
+            ]
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /questions/2
+
+    + Body
+
+            {
+                "question": "Favourite programming language?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "choices": [
+                    {
+                        "choice": "Swift",
+                        "votes": 0
+                    }, {
+                        "choice": "Python",
+                        "votes": 0
+                    }, {
+                        "choice": "Objective-C",
+                        "votes": 0
+                    }, {
+                        "choice": "Ruby",
+                        "votes": 0
+                    }
+                ]
+            }
