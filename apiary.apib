@@ -1,5 +1,4 @@
 FORMAT: 1A
-HOST: http://local.venuepay.com/
 
 # VenuePay CreditLine
 
@@ -10,30 +9,11 @@ This API allows venue.com to process credit request from consumers via Magento.
 + `JSON Request` consist of Customer, Order and Credit Request data.
 + `JSON Response` returns `true` or `false` based on request acceptance or rejection.
 
-### Request Credit [GET]
+### Request Credit [POST]
 
 + Request (application/json)
 
-        {
-            "customer": {
-                "name" : "Adnan Shahzad"
-            },
-            "order": {
-                "subtotal" : 27.2,
-                "tax" : 12.4,
-                "shipping_rate" : 10,
-                "grand_total" : 49.6,
-                "address" : {
-                    "shipment" : {},
-                    "billing" : {}
-                },
-                "cart" : {},
-                "shipping_method" : {}
-            },
-            "credit_request" : {
-                "amount": 1200
-            }
-        }
+    + Attributes (Request Credit Request)
 
 + Response 201 (application/json)
 
@@ -41,20 +21,9 @@ This API allows venue.com to process credit request from consumers via Magento.
 
             Location: /credit/121142
 
-    + Body
+    + Attributes (Request Credit Response)
 
-            {
-                "error": false,
-                "token": "5qYHzcZX4ejeUE3yqtHVRDW73znegWTI",
-                "transaction_id": "121142",
-                "application_id": "FX20-119",
-                "amount_authorized": 1200,
-                "deduction" : 49.6,
-                "balance": 1150.4,
-                "message": "Your loan request is successfully approved"
-            }
-
-### Take Credit [POST]
+### Take Credit [GET]
 
 + Request (application/json)
 
@@ -170,3 +139,41 @@ Credit line description
                     }
                 ]
             }
+            
+            
+# Data Structures
+
+## Request Credit Request
++ customer (customer) - Customer Data
++ order (order) - Order Data
+
+### customer
++ name: `Adnan Shahzad` (string, required) - Customer Name
+
+### order
++ subtotal: `27.2` (number, required) - Subtotal of Order
++ tax: `12.4` (number, required) - Tax amount of Order
++ shipping_rate: `10` (number, required) - Shipping amount of Order
++ grand_total: `49.6` (number, required) - Grand total of Order
++ address (address) - Shipping & billing address of Order
++ cart (cart) - Shopping cart of Order (Contains product information)
++ shipping_method (shipping method) - Shipping method of Order
+
+### address
++ shipment (shipment) - Shipping address of Order
++ billing (billing) - Billing address of Order
+
+### shipment
+### billing
+### cart
+### shipping method
+
+## Request Credit Response
++ error: `false` (boolean, required) - Response status
++ token: `5qYHzcZX4ejeUE3yqtHVRDW73znegWTI` (string, required) - VenueAPI token
++ transaction_id: `121142` (string, required) - ID of the transaction
++ application_id: `FX20-119` (string, required) - Customer contract or application ID
++ amount_authorized: `1200` (number, required) - Total loan amount authorized for customer
++ deduction: `49.6` (number, required) - Deduction made according to received order grand total
++ balance: `1150.4` (number, required) - Remaining amount in vault
++ message: `Your loan request is successfully approved` (string, required) - Message/Remarks
