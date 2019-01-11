@@ -15,13 +15,22 @@ This API allows venue.com to process credit request from consumers via Magento.
 
     + Attributes (Request Credit Request)
 
-+ Response 201 (application/json)
++ Response 202 (application/json)
 
     + Headers
 
-            Location: /credit/121142
+            Location: /credit/accepted/121142
 
-    + Attributes (Request Credit Response)
+    + Attributes (Request Credit Response Accepted)
+
++ Response 406 (application/json)
+
+    + Headers
+
+            Location: /credit/rejected/121142
+
+    + Attributes (Request Credit Response Rejected)
+
 
 ### Charge credit account [GET]
 
@@ -94,7 +103,7 @@ Credit line description
 ### cart
 ### shipping method
 
-## Request Credit Response
+## Request Credit Response Accepted
 + error: `false` (boolean, required) - Response status
 + token: `5qYHzcZX4ejeUE3yqtHVRDW73znegWTI` (string, required) - VenueAPI token
 + transaction_id: `121142` (string, required) - ID of the transaction
@@ -103,3 +112,9 @@ Credit line description
 + deduction: `49.6` (number, required) - Deduction made according to received order grand total
 + balance: `1150.4` (number, required) - Remaining amount in vault
 + message: `Your loan request is successfully approved` (string, required) - Message/Remarks
+
+## Request Credit Response Rejected
++ error: `true` (boolean, required) - Response status
++ token: `5qYHzcZX4ejeUE3yqtHVRDW73znegWTI` (string, required) - VenueAPI token
++ requested_amount: `1200` (number, required) - Total loan amount requested for customer
++ message: `Cannot authorize request` (string, required) - Message/Remarks
