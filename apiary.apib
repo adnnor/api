@@ -79,37 +79,48 @@ Credit line description
 # Data Structures
 
 ## Request Credit Request
-+ customer (customer) - Customer Data
-+ order (order) - Order Data
++ name (name) - Customer name
++ email: `adnan.shahzad@progos.org` (string, required) - Customer email address
++ gender: `1` (number, required) - Customer gender 1: Male, 2: Female, 3: Not specified
++ group: `1` (number, required) - Customer group
++ store: `1` (number, required) - Associated customer website
++ tax: `DTS-34441-3` (string, required) - Customer Tax/Vat number
++ dob: `12/15/2000` (string, required)  - Customer date of birth
++ addresses (addresses) - Customer addresses
 
-### customer
-+ name: `Adnan Shahzad` (string, required) - Customer Name
+### name
++ prefix: `Syed` (string, optional) - Prefix of customer name
++ first: `Adnan` (string, required) - Customer first Name
++ middle: `` (string, optional) - Customer middle name
++ last: `Shahzad` (string, required) - Customer last Name
++ suffix: `Bukhari` (string, optional) - Initial of customer name
 
-### order
-+ subtotal: `27.2` (number, required) - Subtotal of Order
-+ tax: `12.4` (number, required) - Tax amount of Order
-+ shipping_rate: `10` (number, required) - Shipping amount of Order
-+ grand_total: `49.6` (number, required) - Grand total of Order
-+ address (address) - Shipping & billing address of Order
-+ cart (cart) - Shopping cart of Order (Contains product information)
-+ shipping_method (shipping method) - Shipping method of Order
+### addresses
++ shipping (all addresses) - Shipping address of customer
++ billing (all addresses) - Billing address of customer
 
-### address
-+ shipment (shipment) - Shipping address of Order
-+ billing (billing) - Billing address of Order
-
-### shipment
-### billing
-### cart
-### shipping method
+### all addresses
++ name (name)
++ company: `Progostech` (string, optional) - Company name
++ address (array, required) - Street address
+    - (enum)
+        - firstField
+        - secondField
+        - extraField
+        - dummyField
+        
++ city: `Dubai` (string, optional) - City name
++ country: `AE` (string, optional) - Country code
++ state: `Progostech` (string, optional) - State/Province
++ zip: `12445` (string, optional) - Zip/Postal code
++ phone: `+123456789` (string, optional) - Phone number
++ tax: `DTS-34441-3` (string, required) - Tax/Vat number
 
 ## Request Credit Response Accepted
 + error: `false` (boolean, required) - Response status
 + token: `5qYHzcZX4ejeUE3yqtHVRDW73znegWTI` (string, required) - VenueAPI token
 + transaction_id: `121142` (string, required) - ID of the transaction
 + application_id: `FX20-119` (string, required) - Customer contract or application ID
-+ amount_authorized: `1200` (number, required) - Total loan amount authorized for customer
-+ deduction: `49.6` (number, required) - Deduction made according to received order grand total
 + balance: `1150.4` (number, required) - Remaining amount in vault
 + message: `Your loan request is successfully approved` (string, required) - Message/Remarks
 
