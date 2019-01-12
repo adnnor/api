@@ -19,7 +19,7 @@ This API allows venue.com to process credit request from consumers via Magento.
 
     + Headers
 
-            Location: /credit/accepted/121142
+            Location: /credit/transaction_id/121142
 
     + Attributes (Request Credit Response Accepted)
 
@@ -27,12 +27,12 @@ This API allows venue.com to process credit request from consumers via Magento.
 
     + Headers
 
-            Location: /credit/rejected/121142
+            Location: /credit/transaction_id/121142
 
     + Attributes (Request Credit Response Rejected)
 
 
-### Charge credit account [GET]
+### Charge the Credit Line account [GET]
 
 + Request (application/json)
 
@@ -57,17 +57,47 @@ Credit line description
 
 ### Remove Credit Line [DELETE]
 
-+ Response 200 (application/json)
++ Request (application/json)
 
-        [
-        ]
+    + Attributes (Remove Credit Line Request)
+
++ Response 202 (application/json)
+
+    + Headers
+
+            Location: /credit/line/FX20-119
+
+    + Attributes (Remove Credit Line Request Accepted)
+
++ Response 406 (application/json)
+
+    + Headers
+
+            Location: /credit/line/FX20-119
+
+    + Attributes (Remove Credit Line Request Rejected)
 
 ### Update Credit Line [POST]
 
-+ Response 200 (application/json)
++ Request (application/json)
 
-        [
-        ]
+    + Attributes (Update Credit Line Request)
+
++ Response 202 (application/json)
+
+    + Headers
+
+            Location: /credit/line/FX20-119
+
+    + Attributes (Request Credit Response Accepted)
+
++ Response 406 (application/json)
+
+    + Headers
+
+            Location: /credit/line/FX20-119
+
+    + Attributes (Request Credit Response Accepted)
 
 ### Validate Credit Line [GET]
 
@@ -77,13 +107,46 @@ Credit line description
         ]
             
 # Data Structures
+## Update Credit Line Request
++ application_id: `FX20-119` (string, required) - Existing contract or application id of customer
++ name (name) - Customer name
++ email: `adnan.shahzad@progos.org` (string, required) - Customer email address
++ gender: `1` (number, required) - Customer gender id 1: Male, 2: Female, 3: Not specified
++ group: `1` (number, required) - Customer group id
++ store: `1` (number, required) - Associated customer website id
++ tax: `DTS-34441-3` (string, required) - Customer Tax/Vat number
++ dob: `12/15/2000` (string, required)  - Customer date of birth
++ addresses (addresses) - Customer addresses
+
+## Update Credit Line Request Accepted
++ error: `false` (boolean, required) - Response status
++ token: `5qYHzcZX4ejeUE3yqtHVRDW73znegWTI` (string, required) - VenueAPI token
++ transaction_id: `1798112` (string, required) - Id of the transaction
++ application_id: `FX20-119` (string, required) - Customer contract or application id
++ previous_balance: `200` (number, required) - Previous credit balance in vault
++ amount_authorized: `3000` (number, required) - Authorized amount
++ balance: `3200` (number, required) - Total credit line balance
++ message: `Your loan request is successfully approved` (string, required) - Message/Remarks
+
+## Remove Credit Line Request
++ application_id: `FX20-119` (string, required) - Customer contract or application id
+
+## Remove Credit Line Request Accepted
++ error: `false` (boolean, required) - Response status
++ application_id: `FX20-119` (string, required) - Customer contract or application id
++ message: `Your credit line is successfully removed` (string, required) - Message/Remarks
+
+## Remove Credit Line Request Rejected
++ error: `true` (boolean, required) - Response status
++ application_id: `FX20-119` (string, required) - Customer contract or application id
++ message: `Invalid application/contract id` (string, required) - Message/Remarks
 
 ## Request Credit Request
 + name (name) - Customer name
 + email: `adnan.shahzad@progos.org` (string, required) - Customer email address
-+ gender: `1` (number, required) - Customer gender 1: Male, 2: Female, 3: Not specified
-+ group: `1` (number, required) - Customer group
-+ store: `1` (number, required) - Associated customer website
++ gender: `1` (number, required) - Customer gender id 1: Male, 2: Female, 3: Not specified
++ group: `1` (number, required) - Customer group id
++ store: `1` (number, required) - Associated customer website id
 + tax: `DTS-34441-3` (string, required) - Customer Tax/Vat number
 + dob: `12/15/2000` (string, required)  - Customer date of birth
 + addresses (addresses) - Customer addresses
@@ -91,7 +154,7 @@ Credit line description
 ### name
 + prefix: `Syed` (string, optional) - Prefix of customer name
 + first: `Adnan` (string, required) - Customer first Name
-+ middle: `` (string, optional) - Customer middle name
++ middle: | (string, optional) - Customer middle name
 + last: `Shahzad` (string, required) - Customer last Name
 + suffix: `Bukhari` (string, optional) - Initial of customer name
 
@@ -101,31 +164,26 @@ Credit line description
 
 ### all addresses
 + name (name)
-+ company: `Progostech` (string, optional) - Company name
++ company: `Progostech` (string, required) - Company name
 + address (array, required) - Street address
-    - (enum)
-        - firstField
-        - secondField
-        - extraField
-        - dummyField
-        
-+ city: `Dubai` (string, optional) - City name
-+ country: `AE` (string, optional) - Country code
-+ state: `Progostech` (string, optional) - State/Province
-+ zip: `12445` (string, optional) - Zip/Postal code
-+ phone: `+123456789` (string, optional) - Phone number
+    - `Office 201, 2nd Floor`
+    - `595 Pacific Avenue`
+
++ city: `Dubai` (string, required) - City name
++ country: `AE` (string, required) - Country code
++ state: `Progostech` (string, required) - State/Province
++ zip: `12445` (string, required) - Zip/Postal code
++ phone: `+123456789` (string, required) - Phone number
 + tax: `DTS-34441-3` (string, required) - Tax/Vat number
 
 ## Request Credit Response Accepted
 + error: `false` (boolean, required) - Response status
 + token: `5qYHzcZX4ejeUE3yqtHVRDW73znegWTI` (string, required) - VenueAPI token
-+ transaction_id: `121142` (string, required) - ID of the transaction
-+ application_id: `FX20-119` (string, required) - Customer contract or application ID
-+ balance: `1150.4` (number, required) - Remaining amount in vault
++ transaction_id: `121142` (string, required) - Id of the transaction
++ application_id: `FX20-119` (string, required) - Customer contract or application id
++ amount_authorized: `3000` (number, required) - Authorized amount
 + message: `Your loan request is successfully approved` (string, required) - Message/Remarks
 
 ## Request Credit Response Rejected
 + error: `true` (boolean, required) - Response status
-+ token: `5qYHzcZX4ejeUE3yqtHVRDW73znegWTI` (string, required) - VenueAPI token
-+ requested_amount: `1200` (number, required) - Total loan amount requested for customer
 + message: `Cannot authorize request` (string, required) - Message/Remarks
