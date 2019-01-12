@@ -34,26 +34,31 @@ This API allows venue.com to process credit request from consumers via Magento.
 
 ### Charge the Credit Line account [GET]
 
+appropriate description for credit line goes here
+
 + Request (application/json)
 
-        {
-        }
+    + Attributes (Validate Credit Line Request)
 
-+ Response 201 (application/json)
++ Response 202 (application/json)
 
     + Headers
 
-            Location: /xxxx
+            Location: /credit/line/FX20-119
 
-    + Body
+    + Attributes (Remove Credit Line Request Accepted)
 
-            {
-            }
++ Response 406 (application/json)
 
+    + Headers
+
+            Location: /credit/line/FX20-119
+
+    + Attributes (Remove Credit Line Request Rejected)
 
 ## Credit Line [/credit/line]
 
-Credit line description
+appropriate description for credit line goes here
 
 ### Remove Credit Line [DELETE]
 
@@ -89,7 +94,7 @@ Credit line description
 
             Location: /credit/line/FX20-119
 
-    + Attributes (Request Credit Response Accepted)
+    + Attributes (Update Credit Line Request Accepted)
 
 + Response 406 (application/json)
 
@@ -97,16 +102,58 @@ Credit line description
 
             Location: /credit/line/FX20-119
 
-    + Attributes (Request Credit Response Accepted)
+    + Attributes (Request Credit Response Rejected)
 
 ### Validate Credit Line [GET]
 
-+ Response 200 (application/json)
++ Request (application/json)
 
-        [
-        ]
-            
+    + Attributes (Validate Credit Line Request)
+
++ Response 202 (application/json)
+
+    + Headers
+
+            Location: /credit/line/FX20-119
+
+    + Attributes (Validate Credit Line Request Accepted)
+
++ Response 401 (application/json)
+
+    + Headers
+
+            Location: /credit/line/FX20-119
+
+    + Attributes (Validate Credit Line Request Rejected)
+    
 # Data Structures
+
+## Charge Credit Line Request Accepted
++ error: `false` (boolean, required) - Response status
++ token: `PSNlwhrCLmZKOVjKv10W9lSDsrRzuY59` (string, required) - VenueAPI token
++ transaction_id: `2588791` (string, required) - Id of the transaction
++ application_id: `FX20-119` (string, required) - Customer contract or application id
++ previous_balance: `3200` (number, required) - Previous credit balance in vault
++ amount_requested: `233` (number, required) - Requested amount to be validated
++ balance: `2967` (number, required) - Total credit line balance after deduction
++ message: `Your request is proccessed successfully` (string, required) - Message/Remarks
+
+## Validate Credit Line Request
++ application_id: `FX20-119` (string, required) - Existing contract or application id of customer
++ amount: `233` (number, required) - Requested amount to be validated
+
+## Validate Credit Line Request Accepted
++ error: `false` (boolean, required) - Response status
++ application_id: `FX20-119` (string, required) - Customer contract or application id
++ amount_requested: `233` (number, required) - Requested amount to be validated
++ balance: `3200` (number, required) - Total credit line balance
++ message: `Your credit line is valid for the requested amount` (string, required) - Message/Remarks
+
+## Validate Credit Line Request Rejected
++ error: `true` (boolean, required) - Response status
++ application_id: `FX20-119` (string, required) - Customer contract or application id
++ message: `Insufficient balance or contract expired` (string, required) - Message/Remarks
+
 ## Update Credit Line Request
 + application_id: `FX20-119` (string, required) - Existing contract or application id of customer
 + name (name) - Customer name
@@ -120,7 +167,7 @@ Credit line description
 
 ## Update Credit Line Request Accepted
 + error: `false` (boolean, required) - Response status
-+ token: `5qYHzcZX4ejeUE3yqtHVRDW73znegWTI` (string, required) - VenueAPI token
++ token: `PSNlwhrCLmZKOVjKv10W9lSDsrRzuY59` (string, required) - VenueAPI token
 + transaction_id: `1798112` (string, required) - Id of the transaction
 + application_id: `FX20-119` (string, required) - Customer contract or application id
 + previous_balance: `200` (number, required) - Previous credit balance in vault
