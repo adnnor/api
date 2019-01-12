@@ -34,7 +34,7 @@ This API allows venue.com to process credit request from consumers via Magento.
 
 ### Charge the Credit Line account [GET]
 
-appropriate description for credit line goes here
+appropriate description for charge credit line goes here
 
 + Request (application/json)
 
@@ -46,7 +46,7 @@ appropriate description for credit line goes here
 
             Location: /credit/line/FX20-119
 
-    + Attributes (Remove Credit Line Request Accepted)
+    + Attributes (Charge Credit Line Request Accepted)
 
 + Response 406 (application/json)
 
@@ -145,7 +145,7 @@ appropriate description for credit line goes here
 ## Validate Credit Line Request Accepted
 + error: `false` (boolean, required) - Response status
 + application_id: `FX20-119` (string, required) - Customer contract or application id
-+ amount_requested: `233` (number, required) - Requested amount to be validated
++ amount: `233` (number, required) - Requested amount to be validated
 + balance: `3200` (number, required) - Total credit line balance
 + message: `Your credit line is valid for the requested amount` (string, required) - Message/Remarks
 
