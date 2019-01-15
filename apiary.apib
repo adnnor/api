@@ -42,8 +42,8 @@ Request for credit line or loan account.
 After successful validation of credit line, this section allows to charge the customer credit/loan account.
 
 + `JSON Request (GET)` customer contract/application id and amount.
-+ `JSON Response (200)` returns acceptance of the request.
-+ `JSON Response (201)` returns partial acceptance of the request.
++ `JSON Response (1st 200)` returns acceptance of the request.
++ `JSON Response (2nd 200)` returns partial acceptance of the request.
 + `JSON Response (403)` returns rejection of the request.
 
 + Request (application/json)
@@ -58,7 +58,11 @@ After successful validation of credit line, this section allows to charge the cu
 
     + Attributes (Charge Credit Line Request Accepted)
 
-+ Response 201 (application/json)
++ Request (application/json)
+
+    + Attributes (Validate Credit Line Request)
+
++ Response 200 (application/json)
 
     + Headers
 
