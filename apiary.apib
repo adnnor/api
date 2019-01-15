@@ -13,13 +13,14 @@ Process credit request of the customer.
 Request for credit line or loan account.
 
 + `JSON Request (POST)` consist of complete customer data.
-+ `JSON Response` returns acceptance or rejection of the credit/loan request.
++ `JSON Response (201)` returns acceptance of the credit/loan request.
++ `JSON Response (406)` returns rejection of the credit/loan request.
 
 + Request (application/json)
 
     + Attributes (Request Credit Request)
 
-+ Response 202 (application/json)
++ Response 201 (application/json)
 
     + Headers
 
@@ -40,20 +41,30 @@ Request for credit line or loan account.
 
 After successful validation of credit line, this section allows to charge the customer credit/loan account.
 
-+ `JSON Request (GET)` consist of customer contract/application id and amount.
-+ `JSON Response` returns acceptance or rejection of the request.
++ `JSON Request (GET)` customer contract/application id and amount.
++ `JSON Response (200)` returns acceptance of the request.
++ `JSON Response (201)` returns partial acceptance of the request.
++ `JSON Response (406)` returns rejection of the request.
 
 + Request (application/json)
 
     + Attributes (Validate Credit Line Request)
 
-+ Response 202 (application/json)
++ Response 200 (application/json)
 
     + Headers
 
             Location: /credit/line/FX20-119
 
     + Attributes (Charge Credit Line Request Accepted)
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /credit/line/FX20-119
+
+    + Attributes (Charge Credit Line Request Accepted Partial)
 
 + Response 406 (application/json)
 
@@ -72,13 +83,14 @@ Manages credit line of the customer e.g. delete, validate or update the credit a
 Removes customer active credit line.
 
 + `JSON Request (DELETE)` consist of customer contract/application id.
-+ `JSON Response` returns acceptance or rejection of the request.
++ `JSON Response (201)` returns acceptance of the request.
++ `JSON Response (406)` returns rejection of the request.
 
 + Request (application/json)
 
     + Attributes (Remove Credit Line Request)
 
-+ Response 202 (application/json)
++ Response 201 (application/json)
 
     + Headers
 
@@ -99,13 +111,14 @@ Removes customer active credit line.
 Updates the credit/loan quota of the customer.
 
 + `JSON Request (POST)` consist of customer contract/application id and updated customer data.
-+ `JSON Response` returns acceptance or rejection of the request.
++ `JSON Response (201)` returns acceptance of the request.
++ `JSON Response (406)` returns rejection of the request.
 
 + Request (application/json)
 
     + Attributes (Update Credit Line Request)
 
-+ Response 202 (application/json)
++ Response 201 (application/json)
 
     + Headers
 
@@ -126,13 +139,14 @@ Updates the credit/loan quota of the customer.
 Validates customer credit line before initiate the **Charge the Credit Line account** request.
 
 + `JSON Request (GET)` consist of customer contract/application id and amount.
-+ `JSON Response` returns acceptance or rejection of the request.
++ `JSON Response (201)` returns acceptance of the request.
++ `JSON Response (406)` returns rejection of the request.
 
 + Request (application/json)
 
     + Attributes (Validate Credit Line Request)
 
-+ Response 202 (application/json)
++ Response 201 (application/json)
 
     + Headers
 
@@ -158,6 +172,16 @@ Validates customer credit line before initiate the **Charge the Credit Line acco
 + amount: `233` (number, required) - Requested amount to be validated
 + balance: `2967` (number, required) - Total credit line balance after deduction
 + message: `Your request is proccessed successfully` (string, required) - Message/Remarks
+
+## Charge Credit Line Request Accepted Partial
++ error: `false` (boolean, required) - Response status
++ token: `PSNlwhrCLmZKOVjKv10W9lSDsrRzuY59` (string, required) - VenueAPI token
++ transaction_id: `2588791` (string, required) - Id of the transaction
++ application_id: `FX20-119` (string, required) - Customer contract or application id
++ amount: `200` (number, required) - Requested amount to be validated
++ balance: `0` (number, required) - Total credit line balance after deduction
++ remaining: `33` (number, required) - Amount receivable outside of credit line
++ message: `Your request is partially proccessed, please clear remaining amount` (string, required) - Message/Remarks
 
 ## Validate Credit Line Request
 + application_id: `FX20-119` (string, required) - Existing contract or application id of customer
