@@ -14,7 +14,7 @@ Request for credit line or loan account.
 
 + `JSON Request (POST)` consist of complete customer data.
 + `JSON Response (201)` returns acceptance of the credit/loan request.
-+ `JSON Response (406)` returns rejection of the credit/loan request.
++ `JSON Response (403)` returns rejection of the credit/loan request.
 
 + Request (application/json)
 
@@ -28,7 +28,7 @@ Request for credit line or loan account.
 
     + Attributes (Request Credit Response Accepted)
 
-+ Response 406 (application/json)
++ Response 403 (application/json)
 
     + Headers
 
@@ -44,7 +44,7 @@ After successful validation of credit line, this section allows to charge the cu
 + `JSON Request (GET)` customer contract/application id and amount.
 + `JSON Response (200)` returns acceptance of the request.
 + `JSON Response (201)` returns partial acceptance of the request.
-+ `JSON Response (406)` returns rejection of the request.
++ `JSON Response (403)` returns rejection of the request.
 
 + Request (application/json)
 
@@ -66,7 +66,7 @@ After successful validation of credit line, this section allows to charge the cu
 
     + Attributes (Charge Credit Line Request Accepted Partial)
 
-+ Response 406 (application/json)
++ Response 403 (application/json)
 
     + Headers
 
@@ -84,7 +84,7 @@ Removes customer active credit line.
 
 + `JSON Request (DELETE)` consist of customer contract/application id.
 + `JSON Response (201)` returns acceptance of the request.
-+ `JSON Response (406)` returns rejection of the request.
++ `JSON Response (403)` returns rejection of the request.
 
 + Request (application/json)
 
@@ -98,7 +98,7 @@ Removes customer active credit line.
 
     + Attributes (Remove Credit Line Request Accepted)
 
-+ Response 406 (application/json)
++ Response 403 (application/json)
 
     + Headers
 
@@ -112,7 +112,7 @@ Updates the credit/loan quota of the customer.
 
 + `JSON Request (POST)` consist of customer contract/application id and updated customer data.
 + `JSON Response (201)` returns acceptance of the request.
-+ `JSON Response (406)` returns rejection of the request.
++ `JSON Response (403)` returns rejection of the request.
 
 + Request (application/json)
 
@@ -126,7 +126,7 @@ Updates the credit/loan quota of the customer.
 
     + Attributes (Update Credit Line Request Accepted)
 
-+ Response 406 (application/json)
++ Response 403 (application/json)
 
     + Headers
 
@@ -140,7 +140,7 @@ Validates customer credit line before initiate the **Charge the Credit Line acco
 
 + `JSON Request (GET)` consist of customer contract/application id and amount.
 + `JSON Response (201)` returns acceptance of the request.
-+ `JSON Response (406)` returns rejection of the request.
++ `JSON Response (403)` returns rejection of the request.
 
 + Request (application/json)
 
