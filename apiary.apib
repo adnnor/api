@@ -18,7 +18,7 @@ Request for credit line or loan account.
 
 + Request (application/json)
 
-    + Attributes (Request Credit Request)
+    + Attributes (Request Credit)
 
 + Response 201 (application/json)
 
@@ -26,7 +26,7 @@ Request for credit line or loan account.
 
             Location: /credit/transaction_id/121142
 
-    + Attributes (Request Credit Response Accepted)
+    + Attributes (Request Credit Accepted)
 
 + Response 403 (application/json)
 
@@ -34,16 +34,15 @@ Request for credit line or loan account.
 
             Location: /credit
 
-    + Attributes (Request Credit Response Rejected)
+    + Attributes (Request Credit Rejected)
 
 
 ### Charge the Credit Line account [GET]
 
 After successful validation of credit line, this section allows to charge the customer credit/loan account.
 
-+ `JSON Request (GET)` customer contract/application id and amount.
-+ `JSON Response (1st 200)` returns acceptance of the request.
-+ `JSON Response (2nd 200)` returns partial acceptance of the request.
++ `JSON Request (GET)` customer contract id and amount.
++ `JSON Response (200)` returns **partial** or **complete acceptance** of the request.
 + `JSON Response (403)` returns rejection of the request.
 
 + Request (application/json)
@@ -80,69 +79,17 @@ After successful validation of credit line, this section allows to charge the cu
 
 ## Credit Line [/credit/line]
 
-Manages credit line of the customer e.g. delete, validate or update the credit account of the customer. 
+This section validates and fetches the list of all credit lines based on customer reference. 
 
-### Remove Credit Line [DELETE]
-
-Removes customer active credit line.
-
-+ `JSON Request (DELETE)` consist of customer contract/application id.
-+ `JSON Response (201)` returns acceptance of the request.
-+ `JSON Response (403)` returns rejection of the request.
-
-+ Request (application/json)
-
-    + Attributes (Remove Credit Line Request)
-
-+ Response 201 (application/json)
-
-    + Headers
-
-            Location: /credit/line/FX20-119
-
-    + Attributes (Remove Credit Line Request Accepted)
-
-+ Response 403 (application/json)
-
-    + Headers
-
-            Location: /credit/line/FX20-119
-
-    + Attributes (Remove Credit Line Request Rejected)
-
-### Update Credit Line [POST]
-
-Updates the credit/loan quota of the customer.
-
-+ `JSON Request (POST)` consist of customer contract/application id and updated customer data.
-+ `JSON Response (201)` returns acceptance of the request.
-+ `JSON Response (403)` returns rejection of the request.
-
-+ Request (application/json)
-
-    + Attributes (Update Credit Line Request)
-
-+ Response 201 (application/json)
-
-    + Headers
-
-            Location: /credit/line/FX20-119
-
-    + Attributes (Update Credit Line Request Accepted)
-
-+ Response 403 (application/json)
-
-    + Headers
-
-            Location: /credit/line/FX20-119
-
-    + Attributes (Request Credit Response Rejected)
+- Validate credit lines against provided amount
+- Fetch list of all credit lines/transactions against given customer's reference and contract id.
+- Get complete information of credit line against given contract id.
 
 ### Validate Credit Line [GET]
 
 Validates customer credit line before initiate the **Charge the Credit Line account** request.
 
-+ `JSON Request (GET)` consist of customer contract/application id and amount.
++ `JSON Request (GET)` consist of customer contract id and amount.
 + `JSON Response (201)` returns acceptance of the request.
 + `JSON Response (403)` returns rejection of the request.
 
@@ -172,7 +119,7 @@ Validates customer credit line before initiate the **Charge the Credit Line acco
 + error: `false` (boolean, required) - Response status
 + token: `PSNlwhrCLmZKOVjKv10W9lSDsrRzuY59` (string, required) - VenueAPI token
 + transaction_id: `2588791` (string, required) - Id of the transaction
-+ application_id: `FX20-119` (string, required) - Customer contract or application id
++ contract_id: `FX20-119` (string, required) - Customer contract id
 + amount: `233` (number, required) - Requested amount to be validated
 + balance: `2967` (number, required) - Total credit line balance after deduction
 + message: `Your request is proccessed successfully` (string, required) - Message/Remarks
@@ -181,71 +128,35 @@ Validates customer credit line before initiate the **Charge the Credit Line acco
 + error: `false` (boolean, required) - Response status
 + token: `PSNlwhrCLmZKOVjKv10W9lSDsrRzuY59` (string, required) - VenueAPI token
 + transaction_id: `2588791` (string, required) - Id of the transaction
-+ application_id: `FX20-119` (string, required) - Customer contract or application id
++ contract_id: `FX20-119` (string, required) - Customer contract id
 + amount: `200` (number, required) - Requested amount to be validated
 + balance: `0` (number, required) - Total credit line balance after deduction
 + remaining: `33` (number, required) - Amount receivable outside of credit line
 + message: `Your request is partially proccessed, please clear remaining amount` (string, required) - Message/Remarks
 
 ## Validate Credit Line Request
-+ application_id: `FX20-119` (string, required) - Existing contract or application id of customer
++ contract_id: `FX20-119` (string, required) - Existing contract id of customer
++ customer_id: `11255547785441` (string, required) - Customer id of VenueAPI CreditLine
 + amount: `233` (number, required) - Requested amount to be validated
 
 ## Validate Credit Line Request Accepted
 + error: `false` (boolean, required) - Response status
-+ application_id: `FX20-119` (string, required) - Customer contract or application id
++ contract_id: `FX20-119` (string, required) - Customer contract id
 + amount: `233` (number, required) - Requested amount to be validated
 + balance: `3200` (number, required) - Total credit line balance
 + message: `Your credit line is valid for the requested amount` (string, required) - Message/Remarks
 
 ## Validate Credit Line Request Rejected
 + error: `true` (boolean, required) - Response status
-+ application_id: `FX20-119` (string, required) - Customer contract or application id
++ contract_id: `FX20-119` (string, required) - Customer contract id
 + message: `Insufficient balance or contract expired` (string, required) - Message/Remarks
 
-## Update Credit Line Request
-+ application_id: `FX20-119` (string, required) - Existing contract or application id of customer
+## Request Credit
 + name (name) - Customer name
 + email: `adnan.shahzad@progos.org` (string, required) - Customer email address
 + gender: `1` (number, required) - Customer gender id 1: Male, 2: Female, 3: Not specified
-+ group: `1` (number, required) - Customer group id
-+ store: `1` (number, required) - Associated customer website id
-+ tax: `DTS-34441-3` (string, required) - Customer Tax/Vat number
 + dob: `12/15/2000` (string, required)  - Customer date of birth
-+ addresses (addresses) - Customer addresses
-
-## Update Credit Line Request Accepted
-+ error: `false` (boolean, required) - Response status
-+ token: `PSNlwhrCLmZKOVjKv10W9lSDsrRzuY59` (string, required) - VenueAPI token
-+ transaction_id: `1798112` (string, required) - Id of the transaction
-+ application_id: `FX20-119` (string, required) - Customer contract or application id
-+ previous_balance: `200` (number, required) - Previous credit balance in vault
-+ amount_authorized: `3000` (number, required) - Authorized amount
-+ balance: `3200` (number, required) - Total credit line balance
-+ message: `Your loan request is successfully approved` (string, required) - Message/Remarks
-
-## Remove Credit Line Request
-+ application_id: `FX20-119` (string, required) - Customer contract or application id
-
-## Remove Credit Line Request Accepted
-+ error: `false` (boolean, required) - Response status
-+ application_id: `FX20-119` (string, required) - Customer contract or application id
-+ message: `Your credit line is successfully removed` (string, required) - Message/Remarks
-
-## Remove Credit Line Request Rejected
-+ error: `true` (boolean, required) - Response status
-+ application_id: `FX20-119` (string, required) - Customer contract or application id
-+ message: `Invalid application/contract id` (string, required) - Message/Remarks
-
-## Request Credit Request
-+ name (name) - Customer name
-+ email: `adnan.shahzad@progos.org` (string, required) - Customer email address
-+ gender: `1` (number, required) - Customer gender id 1: Male, 2: Female, 3: Not specified
-+ group: `1` (number, required) - Customer group id
-+ store: `1` (number, required) - Associated customer website id
-+ tax: `DTS-34441-3` (string, required) - Customer Tax/Vat number
-+ dob: `12/15/2000` (string, required)  - Customer date of birth
-+ addresses (addresses) - Customer addresses
++ address (address) - Customer addresses
 
 ### name
 + prefix: `Syed` (string, optional) - Prefix of customer name
@@ -254,14 +165,10 @@ Validates customer credit line before initiate the **Charge the Credit Line acco
 + last: `Shahzad` (string, required) - Customer last Name
 + suffix: `Bukhari` (string, optional) - Initial of customer name
 
-### addresses
-+ shipping (all addresses) - Shipping address of customer
-+ billing (all addresses) - Billing address of customer
-
-### all addresses
+### address
 + name (name)
 + company: `Progostech` (string, required) - Company name
-+ address (array, required) - Street address
++ street (array, required) - Street address
     - `Office 201, 2nd Floor`
     - `595 Pacific Avenue`
 
@@ -270,16 +177,16 @@ Validates customer credit line before initiate the **Charge the Credit Line acco
 + state: `Progostech` (string, required) - State/Province
 + zip: `12445` (string, required) - Zip/Postal code
 + phone: `+123456789` (string, required) - Phone number
-+ tax: `DTS-34441-3` (string, required) - Tax/Vat number
 
-## Request Credit Response Accepted
+## Request Credit Accepted
 + error: `false` (boolean, required) - Response status
 + token: `5qYHzcZX4ejeUE3yqtHVRDW73znegWTI` (string, required) - VenueAPI token
-+ transaction_id: `121142` (string, required) - Id of the transaction
-+ application_id: `FX20-119` (string, required) - Customer contract or application id
++ transaction_id: `121142` (string, required) - Transaction id
++ contract_id: `FX20-119` (string, required) - Customer contract id
++ customer_id: `11255547785441` (string, required) - Customer id of VenueAPI CreditLine
 + amount_authorized: `3000` (number, required) - Authorized amount
 + message: `Your loan request is successfully approved` (string, required) - Message/Remarks
 
-## Request Credit Response Rejected
+## Request Credit Rejected
 + error: `true` (boolean, required) - Response status
 + message: `Cannot authorize request` (string, required) - Message/Remarks
