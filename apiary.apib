@@ -1,7 +1,6 @@
 FORMAT: 1A
 
 # VenuePay CreditLine
-
 This API allows venue.com to process credit request from consumers via Magento.
 
 ## Credit Decision [/credit]
@@ -37,7 +36,7 @@ Request for credit line or loan account.
     + Attributes (Request Credit Rejected)
 
 
-### Charge the Credit Line account [GET]
+### Charge the CreditLine account [GET]
 
 After successful validation of credit line, this section allows to charge the customer credit/loan account.
 
@@ -47,7 +46,7 @@ After successful validation of credit line, this section allows to charge the cu
 
 + Request (application/json)
 
-    + Attributes (Validate Credit Line Request)
+    + Attributes (Charge Credit Line)
 
 + Response 200 (application/json)
 
@@ -55,11 +54,11 @@ After successful validation of credit line, this section allows to charge the cu
 
             Location: /credit/line/FX20-119
 
-    + Attributes (Charge Credit Line Request Accepted)
+    + Attributes (Charge Credit Line Accepted)
 
 + Request (application/json)
 
-    + Attributes (Validate Credit Line Request)
+    + Attributes (Charge Credit Line)
 
 + Response 200 (application/json)
 
@@ -67,7 +66,7 @@ After successful validation of credit line, this section allows to charge the cu
 
             Location: /credit/line/FX20-119
 
-    + Attributes (Charge Credit Line Request Accepted Partial)
+    + Attributes (Charge Credit Line Accepted Partial)
 
 + Response 403 (application/json)
 
@@ -75,27 +74,25 @@ After successful validation of credit line, this section allows to charge the cu
 
             Location: /credit/line/FX20-119
 
-    + Attributes (Validate Credit Line Request Rejected)
+    + Attributes (Validate Credit Line Rejected)
 
 ## Credit Line [/credit/line]
-
-This section validates and fetches the list of all credit lines based on customer reference. 
 
 - Validate credit lines against provided amount
 - Fetch list of all credit lines/transactions against given customer's reference and contract id.
 - Get complete information of credit line against given contract id.
 
-### Validate Credit Line [GET]
+### Validate the CreditLine [POST]
 
-Validates customer credit line before initiate the **Charge the Credit Line account** request.
+Validates customer credit line before initiate the **Charge the CreditLine account** request.
 
-+ `JSON Request (GET)` consist of customer contract id and amount.
++ `JSON Request (GET)` consist of customer id, contract id and amount.
 + `JSON Response (201)` returns acceptance of the request.
 + `JSON Response (403)` returns rejection of the request.
 
 + Request (application/json)
 
-    + Attributes (Validate Credit Line Request)
+    + Attributes (Validate Credit Line)
 
 + Response 201 (application/json)
 
@@ -103,7 +100,7 @@ Validates customer credit line before initiate the **Charge the Credit Line acco
 
             Location: /credit/line/FX20-119
 
-    + Attributes (Validate Credit Line Request Accepted)
+    + Attributes (Validate Credit Line Accepted)
 
 + Response 401 (application/json)
 
@@ -111,11 +108,75 @@ Validates customer credit line before initiate the **Charge the Credit Line acco
 
             Location: /credit/line/FX20-119
 
-    + Attributes (Validate Credit Line Request Rejected)
+    + Attributes (Validate Credit Line Rejected)
+
+### Get the CreditLine information [GET]
+
+Fetch credit line contract information such as company and agreement text.
+
++ `JSON Request (GET)` consist of contract id.
++ `JSON Response (201)` returns credit line information.
++ `JSON Response (403)` returns rejection of the request.
+
++ Request (application/json)
+
+    + Attributes (Get Credit Line)
+
++ Response 201 (application/json)
+
+    + Attributes (Get Credit Line Accepted)
+
++ Response 401 (application/json)
+
+    + Attributes (Get Credit Line Rejected)
     
+
+### Get all customer transactions [GET /customer/transactions]
+
+Get list of all transactions (credit lines) for given customer.
+
++ `JSON Request (GET)` consist of customer id.
++ `JSON Response (201)` returns list of transactions.
++ `JSON Response (403)` returns rejection of the request.
+
++ Request (application/json)
+
+    + Attributes (Get Customer Transactions)
+
++ Response 201 (application/json)
+
+    + Attributes (Get Customer Transactions Accepted)
+
++ Response 401 (application/json)
+
+    + Attributes (Get Customer Transactions Rejected)
+
+
+
+
 # Data Structures
 
-## Charge Credit Line Request Accepted
+## Charge Credit Line
++ contract_id: `FX20-119` (string, required) - Existing contract id of customer
++ customer_id: `11255547785441` (string, required) - Customer id of VenueAPI CreditLine
++ products (array[product, product], required)
++ amount: `233` (number, required) - Requested amount
+
+### cart
++ products (array[product, product], required)
++ subtotal: `200` (number, required) - Subtotal
++ tax: `10` (number, required) - Tax
++ shipping: `23` (number, required) - Shipping rate
++ grantotal: `233` (number, required) - Grand total
+
+### product
++ product_id: `250` (number, required) - Product id
++ title: `Mona Pullover Hoodlie` (string, required) - Product title
++ sku: `WH01` (string, required) - Product SKU
++ qty: `1` (number, required) - Product Quantity
++ price: `100` (number, required) - Product Price
+
+## Charge Credit Line Accepted
 + error: `false` (boolean, required) - Response status
 + token: `PSNlwhrCLmZKOVjKv10W9lSDsrRzuY59` (string, required) - VenueAPI token
 + transaction_id: `2588791` (string, required) - Id of the transaction
@@ -124,7 +185,7 @@ Validates customer credit line before initiate the **Charge the Credit Line acco
 + balance: `2967` (number, required) - Total credit line balance after deduction
 + message: `Your request is proccessed successfully` (string, required) - Message/Remarks
 
-## Charge Credit Line Request Accepted Partial
+## Charge Credit Line Accepted Partial
 + error: `false` (boolean, required) - Response status
 + token: `PSNlwhrCLmZKOVjKv10W9lSDsrRzuY59` (string, required) - VenueAPI token
 + transaction_id: `2588791` (string, required) - Id of the transaction
@@ -134,19 +195,55 @@ Validates customer credit line before initiate the **Charge the Credit Line acco
 + remaining: `33` (number, required) - Amount receivable outside of credit line
 + message: `Your request is partially proccessed, please clear remaining amount` (string, required) - Message/Remarks
 
-## Validate Credit Line Request
+## Get Customer Transactions
++ customer_id: `11255547785441` (string, required) - Customer id of VenueAPI CreditLine
+
+## Get Customer Transactions Accepted
++ error: `false` (boolean, required) - Response status
++ data (array[lines, lines], required) - Customer credit lines
+
+### lines
++ transaction_id: `2588791` (string, required) - Id of the transaction
++ contract_id: `FX20-119` (string, required) - Customer contract id
++ products (array[product, product], required)
++ amount: `233` (number, required) - Requested amount
+
+
+
+
+## Get Credit Line
++ contract_id: `FX20-119` (string, required) - Customer contract id
+
+## Get Credit Line Accepted
++ error: `false` (boolean, required) - Response status
++ company: `Venome LLC` (string, required) - Lease company name
++ contract: `<p>Contract details</p>` (string, required) - Entire lease agreement.
+
+## Get Credit Line Rejected
++ error: `true` (boolean, required) - Response status
+
+
+
+
+
+
+## Get Customer Transactions Rejected
++ error: `true` (boolean, required) - Response status
++ message: `Invalid customer id` (string, required) - Message/Remarks
+
+## Validate Credit Line
 + contract_id: `FX20-119` (string, required) - Existing contract id of customer
 + customer_id: `11255547785441` (string, required) - Customer id of VenueAPI CreditLine
 + amount: `233` (number, required) - Requested amount to be validated
 
-## Validate Credit Line Request Accepted
+## Validate Credit Line Accepted
 + error: `false` (boolean, required) - Response status
 + contract_id: `FX20-119` (string, required) - Customer contract id
 + amount: `233` (number, required) - Requested amount to be validated
 + balance: `3200` (number, required) - Total credit line balance
 + message: `Your credit line is valid for the requested amount` (string, required) - Message/Remarks
 
-## Validate Credit Line Request Rejected
+## Validate Credit Line Rejected
 + error: `true` (boolean, required) - Response status
 + contract_id: `FX20-119` (string, required) - Customer contract id
 + message: `Insufficient balance or contract expired` (string, required) - Message/Remarks
@@ -156,7 +253,7 @@ Validates customer credit line before initiate the **Charge the Credit Line acco
 + email: `adnan.shahzad@progos.org` (string, required) - Customer email address
 + gender: `1` (number, required) - Customer gender id 1: Male, 2: Female, 3: Not specified
 + dob: `12/15/2000` (string, required)  - Customer date of birth
-+ address (address) - Customer addresses
++ address (address, required) - Customer addresses
 
 ### name
 + prefix: `Syed` (string, optional) - Prefix of customer name
@@ -183,7 +280,7 @@ Validates customer credit line before initiate the **Charge the Credit Line acco
 + token: `5qYHzcZX4ejeUE3yqtHVRDW73znegWTI` (string, required) - VenueAPI token
 + transaction_id: `121142` (string, required) - Transaction id
 + contract_id: `FX20-119` (string, required) - Customer contract id
-+ customer_id: `11255547785441` (string, required) - Customer id of VenueAPI CreditLine
++ customer_id: `11255547785441` (string, required) - Customer id assigned by VenueAPI CreditLine
 + amount_authorized: `3000` (number, required) - Authorized amount
 + message: `Your loan request is successfully approved` (string, required) - Message/Remarks
 
