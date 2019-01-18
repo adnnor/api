@@ -230,11 +230,9 @@ Get list of all transactions (credit lines) for given customer.
 + amount: `233` (number, required) - Requested amount
 
 
-
-
 ## Add Tracking
 + transaction_id: `2588791` (string, required) - Id of the transaction
-+ product_id: `12254` (number, required) - Product id relevant to provided transaction_id
++ product_id: `12254` (string, required) - Product id relevant to provided transaction id
 + tracking (tracking, required) - Tracking information of product
 
 ### tracking
@@ -244,11 +242,11 @@ Get list of all transactions (credit lines) for given customer.
 
 ## Add Tracking Accepted
 + error: `false` (boolean, required) - Response status
-+ company: `Venome LLC` (string, required) - Lease company name
-+ contract: `<p>Contract details</p>` (string, required) - Entire lease agreement.
++ message: `Your tracking information has been saved` (string, required) - Message/Remarks
 
 ## Add Tracking Rejected
 + error: `true` (boolean, required) - Response status
++ message: `Product or transaction is not found` (string, required) - Message/Remarks
 
 
 
