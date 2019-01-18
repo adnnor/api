@@ -130,6 +130,26 @@ Fetch credit line contract information such as company and agreement text.
 
     + Attributes (Get Credit Line Rejected)
 
+### Add tracking information [GET /credit/line/tracking]
+
+Add tracking information for the shipment of the specific product.
+
++ `JSON Request (GET)` consist of contract id.
++ `JSON Response (201)` returns credit line information.
++ `JSON Response (403)` returns rejection of the request.
+
++ Request (application/json)
+
+    + Attributes (Add Tracking)
+
++ Response 201 (application/json)
+
+    + Attributes (Add Tracking Accepted)
+
++ Response 401 (application/json)
+
+    + Attributes (Add Tracking Rejected)
+
 ## Customer transaction [/customer]
 
 - Get customer transactions
@@ -212,6 +232,27 @@ Get list of all transactions (credit lines) for given customer.
 
 
 
+## Add Tracking
++ transaction_id: `2588791` (string, required) - Id of the transaction
++ product_id: `12254` (number, required) - Product id relevant to provided transaction_id
++ tracking (tracking, required) - Tracking information of product
+
+### tracking
++ company: `Pro-Couriers` (string, required) - Shipment/Courier company name
++ code: `55887111422355` (string, required) - Tracking code associated with the provided product_id
+
+
+## Add Tracking Accepted
++ error: `false` (boolean, required) - Response status
++ company: `Venome LLC` (string, required) - Lease company name
++ contract: `<p>Contract details</p>` (string, required) - Entire lease agreement.
+
+## Add Tracking Rejected
++ error: `true` (boolean, required) - Response status
+
+
+
+
 ## Get Credit Line
 + contract_id: `FX20-119` (string, required) - Customer contract id
 
@@ -222,11 +263,6 @@ Get list of all transactions (credit lines) for given customer.
 
 ## Get Credit Line Rejected
 + error: `true` (boolean, required) - Response status
-
-
-
-
-
 
 ## Get Customer Transactions Rejected
 + error: `true` (boolean, required) - Response status
