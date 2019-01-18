@@ -130,12 +130,12 @@ Fetch credit line contract information such as company and agreement text.
 
     + Attributes (Get Credit Line Rejected)
 
-### Add tracking information [GET /credit/line/tracking]
+### Add tracking information [POST /credit/line/tracking]
 
 Add tracking information for the shipment of the specific product.
 
-+ `JSON Request (GET)` consist of contract id.
-+ `JSON Response (201)` returns credit line information.
++ `JSON Request (GET)` consist of product and tracking information.
++ `JSON Response (201)` returns acceptance of the request.
 + `JSON Response (403)` returns rejection of the request.
 
 + Request (application/json)
@@ -232,7 +232,7 @@ Get list of all transactions (credit lines) for given customer.
 
 ## Add Tracking
 + transaction_id: `2588791` (string, required) - Id of the transaction
-+ product_id: `12254` (string, required) - Product id relevant to provided transaction id
++ product: `12254|MH201` (string, required) - Product id or sku relevant to provided transaction id
 + tracking (tracking, required) - Tracking information of product
 
 ### tracking
