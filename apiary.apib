@@ -154,7 +154,7 @@ Add tracking information for the shipment of the specific product.
 
 - Get customer transactions
 
-### Get customer transactions [GET]
+### Get customer transactions [GET /customer/transactions]
 
 Get list of all transactions (credit lines) for given customer.
 
@@ -173,6 +173,28 @@ Get list of all transactions (credit lines) for given customer.
 + Response 401 (application/json)
 
     + Attributes (Get Customer Transactions Rejected)
+
+
+### Get customer contract status [GET /customer]
+
+Fetch status of customer contract.
+
++ `JSON Request (GET)` consist of customer id.
++ `JSON Response (200)` returns active status of contract.
++ `JSON Response (404)` returns error.
+
++ Request (application/json)
+
+    + Attributes (Get Customer Contract Status)
+
++ Response 201 (application/json)
+
+    + Attributes (Get Customer Contract Status Accepted)
+
++ Response 401 (application/json)
+
+    + Attributes (Get Customer Contract Status Rejected)
+
 
 
 # Data Structures
@@ -216,6 +238,19 @@ Get list of all transactions (credit lines) for given customer.
 + remaining: `33` (number, required) - Amount receivable outside of credit line
 + message: `Your request is partially proccessed, please clear remaining amount` (string, required) - Message/Remarks
 
+
+## Get Customer Contract Status
++ customer_id: `11255547785441` (string, required) - Customer id of VenueAPI CreditLine
+
+## Get Customer Contract Status Accepted
++ error: `false` (boolean, required) - Response status
++ amount: `3000` (number, required) - Customer contract amount
+
+## Get Customer Contract Status Rejected
++ error: `true` (boolean, required) - Response status
++ message: `Customer is not registered.` (string, required) - Message/Remarks
+
+
 ## Get Customer Transactions
 + customer_id: `11255547785441` (string, required) - Customer id of VenueAPI CreditLine
 
@@ -226,8 +261,18 @@ Get list of all transactions (credit lines) for given customer.
 ### lines
 + transaction_id: `2588791` (string, required) - Id of the transaction
 + contract_id: `FX20-119` (string, required) - Customer contract id
-+ products (array[product, product], required)
++ products (array[product in response, product in response], required)
 + amount: `233` (number, required) - Requested amount
+
+### product in response
++ product_id: `250` (number, required) - Product id
++ title: `Mona Pullover Hoodlie` (string, required) - Product title
++ sku: `WH01` (string, required) - Product SKU
++ qty: `1` (number, required) - Product Quantity
++ price: `100` (number, required) - Product Price
++ shipping (tracking, required) - Shipping and tracking information for the product
+
+### shipping
 
 
 ## Add Tracking
